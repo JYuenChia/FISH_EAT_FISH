@@ -14,5 +14,8 @@ public class GitHubTry {
         System.out.println("Hello World!");
 
         System.out.println("Im Weiyi !!!!!!");
+        
+        System.out.println("Do u see any edition?");
+        
     }
 }
