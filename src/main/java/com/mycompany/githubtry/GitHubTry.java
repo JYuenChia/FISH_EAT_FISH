@@ -21,9 +21,14 @@ import javafx.stage.Stage;
 import javafx.util.Duration;
 import java.util.ArrayList;
 import java.util.Random;
+import javafx.scene.Group;
+import javafx.scene.image.ImageView;
+import javafx.scene.paint.Color;
+import javafx.scene.text.Text;
+
 
 public class FishEatFishGame extends Application {
- abstract class Fish {
+  abstract class Fish {
         Image image;
         double x, y;
         double speed;
@@ -225,6 +230,7 @@ public class FishEatFishGame extends Application {
         stage.setTitle("Fish Eat Fish Game");
         stage.show();
     }
+
 
 
 }
