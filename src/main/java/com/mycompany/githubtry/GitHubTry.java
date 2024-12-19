@@ -23,9 +23,7 @@ import java.util.ArrayList;
 import java.util.Random;
 
 public class FishEatFishGame extends Application {
-
-    // Base Fish class with shared characteristics
-    abstract class Fish {
+ abstract class Fish {
         Image image;
         double x, y;
         double speed;
@@ -76,6 +74,8 @@ public class FishEatFishGame extends Application {
                 }
             }
         }
+
+
     }
 
     // PlayerFish class
@@ -105,9 +105,61 @@ public class FishEatFishGame extends Application {
     private int score = 0;
     private Timeline gameLoop;
 
-    @Override
-    public void start(Stage stage) {
+    private boolean checkCollision(Fish player, Fish enemy) {
+        double distance = Math.sqrt(Math.pow(player.x - enemy.x, 2) + Math.pow(player.y - enemy.y, 2));
+        return distance < (player.size * 0.4 + enemy.size * 0.4); // Adjusted collision radius
+    }
+
+    private void spawnFish(String filePath, double size, double speed, boolean moveLeft, int count) {
+        for (int i = 0; i < count; i++) {
+            enemyFishList.add(new EnemyFish(filePath, size, speed, moveLeft));
+        }
+    }
+
+    public static void main(String[] args) {
+        launch(args);
+    }public void start(Stage primaryStage) throws Exception {
+        
+        Stage stage = new Stage();
+        int totalPoint = 0;
+        int numFish = 0;
+    
+        
         Pane root = new Pane();
+        Scene scene = new Scene(root,800,450,Color.SKYBLUE);
+        
+        Image icon = new Image("file:C:/Users/weiyi/Documents/2444557-1/24004557/icon.png");
+        stage.getIcons().add(icon);
+//        stage.setTitle("The FISH and FISH game");
+//        stage.setWidth(800);
+//        stage.setHeight(600);
+        stage.setResizable(false);
+//        stage.setFullScreen(true);
+        Text textPoint = new Text();
+        textPoint.setText("Point : " +totalPoint); 
+        textPoint.setX(50);
+        textPoint.setY(50);
+//        Scene scene2 = new Scene(root,800,600,Color.SKYBLUE);
+        Text textFish = new Text();
+        textFish.setText("Number of Fish :" + numFish);
+        textFish.setX(50);
+        textFish.setY(70);
+
+        Image imageBG = new Image("file:C:\\Users\\weiyi\\Downloads\\Telegram Desktop\\background.png");
+        ImageView imageViewBG = new ImageView(imageBG);
+        imageViewBG.setFitWidth(800);
+        imageViewBG.setFitHeight(450);
+        imageViewBG.setPreserveRatio(true);
+        imageViewBG.setX(0);
+        imageViewBG.setY(0);
+//         Scene scene2 = new Scene(root2);
+      
+       
+        
+        
+        
+        
+        
         canvas = new Canvas(800, 600);
         root.getChildren().add(canvas);
 
@@ -164,24 +216,15 @@ public class FishEatFishGame extends Application {
         gameLoop.setCycleCount(Animation.INDEFINITE);
         gameLoop.play();
 
-        Scene scene = new Scene(root);
+        root.getChildren().add(imageViewBG);
+        root.getChildren().add(textPoint);
+        root.getChildren().add(textFish);
+        
+        
         stage.setScene(scene);
         stage.setTitle("Fish Eat Fish Game");
         stage.show();
     }
 
-    private boolean checkCollision(Fish player, Fish enemy) {
-        double distance = Math.sqrt(Math.pow(player.x - enemy.x, 2) + Math.pow(player.y - enemy.y, 2));
-        return distance < (player.size * 0.4 + enemy.size * 0.4); // Adjusted collision radius
-    }
 
-    private void spawnFish(String filePath, double size, double speed, boolean moveLeft, int count) {
-        for (int i = 0; i < count; i++) {
-            enemyFishList.add(new EnemyFish(filePath, size, speed, moveLeft));
-        }
-    }
-
-    public static void main(String[] args) {
-        launch(args);
-    }
 }
