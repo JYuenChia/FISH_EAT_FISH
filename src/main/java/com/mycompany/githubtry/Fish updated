@@ -125,10 +125,6 @@ public class Prototype1 extends Application {
     private int score = 0;
     private int FishEaten = 0;
     private Timeline gameLoop;
-    private Stage stage;
-    private Pane root;
-    private Scene scene;
-    protected Image icon;
     
     private boolean up, down, left, right;
     
@@ -187,7 +183,36 @@ public class Prototype1 extends Application {
 
         gameLoop = new Timeline(new KeyFrame(Duration.millis(16), e -> {
             gc.clearRect(0, 0, canvas.getWidth(), canvas.getHeight());
-
+//            if(level==2){
+//                
+//            if(right){
+//            playerFish.updateFishImage("C:/Users/weiyi/Downloads/medium_fish_player2.png");
+//            }else if(left){
+//                playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/medium_fish_player.png");}
+//            }
+            if (level == 2){
+                
+                if(right){
+                playerFish.updateFishImage("C:/Users/weiyi/Downloads/medium_fish_player2.png");
+                }else if(left){
+                    playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/medium_fish_player.png");}
+            } 
+            
+            if (level == 3) {
+                
+                if(right){
+                playerFish.updateFishImage("C:/Users/weiyi/Downloads/big_fish_player2.png");
+                }else if(left){
+                    playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/big_fish_player.png");}
+                }    
+            if (level == 4) {
+                
+                if(right){
+                playerFish.updateFishImage("C:/Users/weiyi/Downloads/giant_fish_player2.png");
+                }else if(left){
+                    playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/giant_fish_player.png");}
+            } 
+               
             updatePlayerMovement();
 
             // Draw and move player fish
@@ -200,20 +225,24 @@ public class Prototype1 extends Application {
                 fish.draw(gc);
             }
             
+            
+            
             double canvasWidth = canvas.getWidth();
             double canvasHeight = canvas.getHeight();
             double fishX = playerFish.speed;
             double fishY = playerFish.speed;
            
  //*********can't make it *********************************************************************************
-          // Apply boundary checks to prevent the fish from moving outside the canvas
-            if (fishX < 0) fishX = 0; // Left boundary
-            if (fishY < 0) fishY = 0; // Top boundary
-            if (fishX + playerFish.size > 1550) fishX = 1550 - playerFish.size; // Right boundary
-            if (fishY + playerFish.size > 810) fishY = 810 - playerFish.size; // Bottom boundary    
-            
+//          // Apply boundary checks to prevent the fish from moving outside the canvas
+//            if (fishX < 0) fishX = 0; // Left boundary
+//            if (fishY < 0) fishY = 0; // Top boundary
+//            if (fishX + playerFish.size > 1550) fishX = 1550 - playerFish.size; // Right boundary
+//            if (fishY + playerFish.size > 810) fishY = 810 - playerFish.size; // Bottom boundary    
+//            
 //*********************************************************************************************************************
 //             Display score and level
+            
+
             handleCollisions(gc);    
             
             gc.fillText("Score: " + score,50, 50);
@@ -222,16 +251,20 @@ public class Prototype1 extends Application {
 
             // Adjust fish population based on score and level
 //      
+                   
+
+
             if (score >= 5 && level == 1) {
                 spawnFish("C:/Users/weiyi/Downloads/Telegram Desktop/medium_fish.png", 120, 3, false, 3);
                 level++;
-            } else if (score >= 20 && level == 2) {
+            } else if (score >= 15 && level == 2) {
                 spawnFish("C:/Users/weiyi/Downloads/Telegram Desktop/big_fish.png", 150, 4, true, 2);    
                 level++;
-            } else if (score >= 40 && level == 3) {
+            } else if (score >= 30 && level == 3) {
                 spawnFish("C:/Users/weiyi/Downloads/Telegram Desktop/giant_fish.png", 200, 5, true, 1);      
                 level++;
             }
+           
            
             
         }));
@@ -262,18 +295,21 @@ public class Prototype1 extends Application {
                     FishEaten+=1;                   
                     playerFish.grow();
                     
-                    if (level == 2) {
-                        gc.fillText("Level: " + level,600, 450);
-                        playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/medium_fish_player.png");            
-                    }
-                    if (level == 3) {
-                        playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/big_fish_player.png");
-                    }
-                    if (level == 4) {
-                        playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/giant_fish_player.png");
-                        
-                    }
-                    
+//                    
+//                    if (level == 2) {
+//                        playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/medium_fish_player.png");  
+//                        
+//                    }
+//                    if (level == 3) {
+//                        playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/big_fish_player.png");
+//                   
+//                    }
+//                    if (level == 4) {
+//                        playerFish.updateFishImage("C:/Users/weiyi/Downloads/Telegram Desktop/giant_fish_player.png");
+//                        if(turnRight)
+//                        playerFish.updateFishImage("C:/Users/weiyi/Downloads/giant_fish_player2.png");
+//                        
+//                    }
                     
                     
                 } else {
@@ -337,3 +373,72 @@ public class Prototype1 extends Application {
     }
 
     
+ 
+    private void handleKeyPress(KeyEvent event) {
+        
+        if (event.getCode() == KeyCode.UP)up = true;
+        else if (event.getCode() == KeyCode.DOWN)down = true;     
+        else if (event.getCode() == KeyCode.LEFT)left = true;
+        else if (event.getCode() == KeyCode.RIGHT)right = true;
+
+    }
+
+    private void handleKeyRelease(KeyEvent event) {
+        if (event.getCode() == KeyCode.UP) up = false;
+        else if (event.getCode() == KeyCode.DOWN) down = false;
+        else if (event.getCode() == KeyCode.LEFT) left = false;
+        else if (event.getCode() == KeyCode.RIGHT) right = false;
+    }
+
+    private void updatePlayerMovement() {
+        if (up) playerFish.y -= playerFish.speed;
+        if (down) playerFish.y += playerFish.speed;
+        if (left) playerFish.x -= playerFish.speed;
+        if (right) playerFish.x += playerFish.speed;
+    }
+
+    private boolean checkCollision(Fish player, Fish enemy) {
+         // Use a reduced size to handle collision checking more accurately for large fish
+        double playerSizeFactor = player.size * 0.2; // Reduced size for more lenient collision
+        double enemySizeFactor = enemy.size * 0.2;  // Reduced size for more lenient collision
+        
+        double playerLeft = player.x;
+        double playerRight = player.x + player.size;
+        double playerTop = player.y;
+        double playerBottom = player.y + player.size;
+
+        double enemyLeft = enemy.x;
+        double enemyRight = enemy.x + enemy.size;
+        double enemyTop = enemy.y;
+        double enemyBottom = enemy.y + enemy.size;
+
+        // Check for overlap
+        boolean horizontalOverlap = playerRight > enemyLeft && playerLeft < enemyRight;
+        boolean verticalOverlap = playerBottom > enemyTop && playerTop < enemyBottom;
+
+        return horizontalOverlap && verticalOverlap;
+    }
+
+    private void spawnFish(String filePath, double size, double speed, boolean moveLeft, int count) {
+        for (int i = 0; i < count; i++) {
+            enemyFishList.add(new EnemyFish(filePath, size, speed, moveLeft));
+        }
+    }
+    
+    
+    public static void main(String[] args) {
+        launch(args);
+        
+        try{
+            Scanner in = new Scanner (new FileInputStream("Fish.txt"));
+            while(in.hasNextLine()){
+                String Line = in.nextLine();
+                System.out.println(Line);
+            }
+            
+        }catch(FileNotFoundException e){
+            System.out.println("Not found");
+        }
+        
+    }
+}
