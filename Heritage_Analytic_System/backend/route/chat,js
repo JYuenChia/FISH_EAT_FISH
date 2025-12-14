@@ -1,0 +1,31 @@
+const express = require("express");
+const pool = require("../db");
+
+const router = express.Router();
+
+router.post("/log", async (req, res) => {
+  const { userId, question, detectedLanguage, topic } = req.body;
+
+  await pool.query(
+    `INSERT INTO chat_logs (user_id, question, detected_language, topic)
+     VALUES (?, ?, ?, ?)`,
+    [userId, question, detectedLanguage, topic]
+  );
+
+  res.json({ success: true });
+});
+
+module.exports = router;
+
+
+
+await fetch("https://your-backend.onrender.com/api/chat/log", {
+  method: "POST",
+  headers: { "Content-Type": "application/json" },
+  body: JSON.stringify({
+    userId: "guest_001",
+    question: userMessage,
+    detectedLanguage: "en",
+    topic: "Traditional Craft"
+  })
+});
